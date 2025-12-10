@@ -16,3 +16,5 @@ panic = { level = "warn", priority = 1 }
 
 # I really dont care, im not gonna use non-standard hashmaps
 implicit_hasher = { level = "allow", priority = 1 }
+
+borrow_interior_mutable_const = { level = "allow", priority = 1 }

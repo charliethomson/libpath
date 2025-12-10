@@ -8,6 +8,9 @@ pub struct ProductName {
     pub ext: Vec<String>,
 }
 impl ProductName {
+    #[must_use]
+    // i dont care
+    #[allow(clippy::needless_pass_by_value)]
     pub fn new<S: ToString>(base: S) -> Self {
         Self {
             base: base.to_string(),
@@ -15,6 +18,9 @@ impl ProductName {
         }
     }
 
+    #[must_use]
+    // i dont care
+    #[allow(clippy::needless_pass_by_value)]
     pub fn with<S: ToString>(&self, ext: S) -> Self {
         let mut this = self.clone();
         this.ext.push(ext.to_string());
@@ -34,8 +40,8 @@ impl ProductName {
 impl std::fmt::Display for ProductName {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "{}", self.base)?;
-        for ext in self.ext.iter() {
-            write!(f, ".{}", ext)?;
+        for ext in &self.ext {
+            write!(f, ".{ext}")?;
         }
         Ok(())
     }

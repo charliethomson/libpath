@@ -25,11 +25,10 @@ impl MkdirIfNotExists for PathBuf {
 /// Panics if `dirs` is unable to locate a [data_local_dir](https://docs.rs/dirs/latest/dirs/fn.data_local_dir.html)
 pub fn data_root() -> PathBuf {
     let product_name = ProductName::global()
-        .map(|name| name.to_string())
-        .unwrap_or(DEFAULT_PRODUCT_NAME.to_string());
+        .map_or(DEFAULT_PRODUCT_NAME.to_string(), |name| name.to_string());
     dirs::data_local_dir()
         .expect("cant find data local dir")
-        .join(product_name.to_string())
+        .join(&product_name)
         .mkdir_if_not_exists()
 }
 
