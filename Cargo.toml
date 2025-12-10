@@ -1,0 +1,18 @@
+[workspace]
+resolver='2'
+package.version='0.0.1'
+package.edition='2024'
+members = [ "libpath" , "libproduct" , "testing" ]
+
+[workspace.dependencies]
+tracing = { version = "0.1.41", features = ["valuable"] }
+valuable = { version = "0.1.1", features = ["derive"] }
+
+
+[workspace.lints.clippy]
+pedantic = { level = "warn", priority = 0 }
+missing_errors_doc = { level = "allow", priority = 1 }
+panic = { level = "warn", priority = 1 }
+
+# I really dont care, im not gonna use non-standard hashmaps
+implicit_hasher = { level = "allow", priority = 1 }

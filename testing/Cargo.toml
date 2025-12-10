@@ -1,0 +1,11 @@
+[package]
+name = "testing"
+version.workspace = true
+edition.workspace = true
+
+[dependencies]
+libpath = { version = "0.0.1", path = "../libpath" }
+libproduct = { version = "0.0.1", path = "../libproduct" }
+
+[lints]
+workspace = true
