@@ -6,7 +6,7 @@ edition.workspace = true
 [dependencies]
 tracing.workspace = true
 dirs = "6.0.0"
-libproduct = { version = "0.0.1", path = "../libproduct" }
+libproduct.workspace = true
 
 [lints]
 workspace = true

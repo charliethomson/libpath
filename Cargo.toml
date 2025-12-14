@@ -8,6 +8,7 @@ members = [ "libpath" , "libproduct" , "testing" ]
 tracing = { version = "0.1.41", features = ["valuable"] }
 valuable = { version = "0.1.1", features = ["derive"] }
 
+libproduct = { path = "./libproduct" }
 
 [workspace.lints.clippy]
 pedantic = { level = "warn", priority = 0 }
