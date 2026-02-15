@@ -102,22 +102,21 @@ impl ProductName {
         GLOBAL_PRODUCT_NAME.get().cloned()
     }
 
+    #[must_use] 
     pub fn name(&self) -> String {
         self.to_string()
     }
 
+    #[must_use] 
     pub fn version(&self) -> String {
         self.build
             .as_ref()
-            .map(|build| {
+            .and_then(|build| {
                 build
                     .package
-                    .version
-                    .as_ref()
-                    .map(|version| version.to_string())
+                    .version.clone()
             })
-            .flatten()
-            .unwrap_or(self.version.to_string())
+            .unwrap_or(self.version.clone())
     }
 
     /// Format a descriptor string by replacing `{KEY}` placeholders with
@@ -128,6 +127,7 @@ impl ProductName {
     /// let desc = product.descriptor("{NAME} v{VERSION} - {GIT_REF}@{GIT_HASH}");
     /// // => "dev.thmsn.myapp v0.1.0 - main@7d712ab"
     /// ```
+    #[must_use] 
     pub fn descriptor(&self, fmt: &str) -> String {
         let opt = |o: Option<&str>| o.unwrap_or("").to_string();
 
@@ -147,7 +147,7 @@ impl ProductName {
                 .replace("{GIT_DIRTY_STAR}", if git.dirty { "*" } else { "" })
                 .replace(
                     "{GIT_MESSAGE}",
-                    &opt(git.commit_message.as_deref()).trim().to_string(),
+                    opt(git.commit_message.as_deref()).trim(),
                 )
                 .replace("{GIT_AUTHOR}", &opt(git.author_name.as_deref()))
                 .replace("{GIT_EMAIL}", &opt(git.author_email.as_deref()))

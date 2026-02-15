@@ -1,3 +1,3 @@
 fn main() {
-    libbuildinfo::emit().expect("Failed to emit build info")
+    libbuildinfo::emit().expect("Failed to emit build info");
 }
