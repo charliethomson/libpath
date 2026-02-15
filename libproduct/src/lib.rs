@@ -10,7 +10,6 @@ pub struct ProductName {
 }
 impl ProductName {
     #[must_use]
-    // i dont care
     #[allow(clippy::needless_pass_by_value)]
     pub fn new<S1: ToString, S2: ToString>(base: S1, version: S2) -> Self {
         Self {
