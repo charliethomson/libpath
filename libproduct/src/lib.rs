@@ -6,15 +6,17 @@ static GLOBAL_PRODUCT_NAME: OnceLock<ProductName> = OnceLock::new();
 pub struct ProductName {
     pub base: String,
     pub ext: Vec<String>,
+    pub version: String,
 }
 impl ProductName {
     #[must_use]
     // i dont care
     #[allow(clippy::needless_pass_by_value)]
-    pub fn new<S: ToString>(base: S) -> Self {
+    pub fn new<S1: ToString, S2: ToString>(base: S1, version: S2) -> Self {
         Self {
             base: base.to_string(),
             ext: vec![],
+            version: version.to_string(),
         }
     }
 
@@ -35,6 +37,14 @@ impl ProductName {
     pub fn global() -> Option<ProductName> {
         // Who the fuck cares
         GLOBAL_PRODUCT_NAME.get().cloned()
+    }
+
+    pub fn name(&self) -> String {
+        self.to_string()
+    }
+
+    pub fn version(&self) -> String {
+        self.version.clone()
     }
 }
 impl std::fmt::Display for ProductName {
@@ -58,7 +68,7 @@ macro_rules! product_name {
     };
 
     (with base $base:literal as $as:ident) => {
-        product_name!(as $as from $crate::ProductName::new($base));
+        product_name!(as $as from $crate::ProductName::new($base, std::env!("CARGO_PKG_VERSION")));
     };
 
     (from $from:ident with extension $ext:literal) => {
