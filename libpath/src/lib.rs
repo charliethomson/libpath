@@ -25,6 +25,7 @@ pub trait MkdirIfNotExists {
     /// ```ignore
     /// let path = PathBuf::from("/tmp/my_app/data").mkdir_if_not_exists();
     /// ```
+    #[must_use]
     fn mkdir_if_not_exists(self) -> Self;
 }
 
@@ -52,7 +53,7 @@ fn epoch() -> u64 {
 }
 
 pub mod dirs {
-    use super::*;
+    use super::{DEFAULT_PRODUCT_NAME, Level, MkdirIfNotExists, PathBuf, ProductName, instrument};
 
     macro_rules! wrap_dirs {
         ($name:ident, $original_name:ident, $debug_text:literal) => {

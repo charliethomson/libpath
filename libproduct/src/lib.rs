@@ -92,9 +92,11 @@ impl ProductName {
         this
     }
 
-    pub fn set_global(&self) -> Result<(), ProductName> {
+    pub fn set_global(&self) -> Result<(), &'static str> {
         // Who the fuck cares
-        GLOBAL_PRODUCT_NAME.set(self.clone())
+        GLOBAL_PRODUCT_NAME
+            .set(self.clone())
+            .map_err(|_| "Product name has already been set")
     }
 
     pub fn global() -> Option<ProductName> {
@@ -102,20 +104,16 @@ impl ProductName {
         GLOBAL_PRODUCT_NAME.get().cloned()
     }
 
-    #[must_use] 
+    #[must_use]
     pub fn name(&self) -> String {
         self.to_string()
     }
 
-    #[must_use] 
+    #[must_use]
     pub fn version(&self) -> String {
         self.build
             .as_ref()
-            .and_then(|build| {
-                build
-                    .package
-                    .version.clone()
-            })
+            .and_then(|build| build.package.version.clone())
             .unwrap_or(self.version.clone())
     }
 
@@ -127,7 +125,7 @@ impl ProductName {
     /// let desc = product.descriptor("{NAME} v{VERSION} - {GIT_REF}@{GIT_HASH}");
     /// // => "dev.thmsn.myapp v0.1.0 - main@7d712ab"
     /// ```
-    #[must_use] 
+    #[must_use]
     pub fn descriptor(&self, fmt: &str) -> String {
         let opt = |o: Option<&str>| o.unwrap_or("").to_string();
 
@@ -145,10 +143,7 @@ impl ProductName {
                 .replace("{GIT_HASH}", &git.commit_short_hash)
                 .replace("{GIT_DIRTY}", if git.dirty { "dirty" } else { "" })
                 .replace("{GIT_DIRTY_STAR}", if git.dirty { "*" } else { "" })
-                .replace(
-                    "{GIT_MESSAGE}",
-                    opt(git.commit_message.as_deref()).trim(),
-                )
+                .replace("{GIT_MESSAGE}", opt(git.commit_message.as_deref()).trim())
                 .replace("{GIT_AUTHOR}", &opt(git.author_name.as_deref()))
                 .replace("{GIT_EMAIL}", &opt(git.author_email.as_deref()))
                 .replace("{GIT_TAGS}", &git.tags.join(","))
