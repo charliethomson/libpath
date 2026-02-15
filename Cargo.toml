@@ -1,6 +1,6 @@
 [workspace]
 resolver='2'
-package.version = '0.0.2'
+package.version = '0.0.3-alpha.0'
 package.edition='2024'
 members = [ "libpath" , "libproduct" , "testing" ]
 
@@ -9,6 +9,7 @@ tracing = { version = "0.1.41", features = ["valuable"] }
 valuable = { version = "0.1.1", features = ["derive"] }
 
 libproduct = { path = "./libproduct" }
+libbuildinfo = { git = "https://github.com/charliethomson/libbuildinfo.git" }
 
 [workspace.lints.clippy]
 pedantic = { level = "warn", priority = 0 }
