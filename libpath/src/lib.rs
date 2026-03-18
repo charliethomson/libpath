@@ -68,7 +68,7 @@ pub mod dirs {
                 "[`dirs::", stringify!($original_name), "`](https://docs.rs/dirs/latest/dirs/fn.", stringify!($original_name), ".html)"
             )]
             #[must_use]
-            #[instrument(level = Level::DEBUG, ret)]
+            #[instrument(level = Level::TRACE, ret)]
             pub fn $name() -> PathBuf {
                 let product_name = ProductName::global()
                     .map_or(DEFAULT_PRODUCT_NAME.to_string(), |name| name.to_string());
@@ -118,7 +118,7 @@ pub mod dirs {
 /// // On Windows: C:\Users\{user}\AppData\Local\{product_name}\configs
 /// ```
 #[must_use]
-#[instrument(level = Level::DEBUG, ret)]
+#[instrument(level = Level::TRACE, ret)]
 pub fn configs_root() -> PathBuf {
     dirs::data_local_dir().join("configs").mkdir_if_not_exists()
 }
@@ -136,7 +136,7 @@ pub fn configs_root() -> PathBuf {
 /// // Returns: {configs_root}/database.toml
 /// ```
 #[must_use]
-#[instrument(level = Level::DEBUG, ret)]
+#[instrument(level = Level::TRACE, ret)]
 pub fn config_path(module: &str) -> PathBuf {
     configs_root()
         .mkdir_if_not_exists()
@@ -155,7 +155,7 @@ pub fn config_path(module: &str) -> PathBuf {
 /// // On Linux: ~/.local/share/{product_name}/logs
 /// ```
 #[must_use]
-#[instrument(level = Level::DEBUG, ret)]
+#[instrument(level = Level::TRACE, ret)]
 pub fn logs_root() -> PathBuf {
     dirs::data_local_dir().join("logs").mkdir_if_not_exists()
 }
@@ -176,7 +176,7 @@ pub fn logs_root() -> PathBuf {
 /// // Returns: {logs_root}/log_1707955200.json
 /// ```
 #[must_use]
-#[instrument(level = Level::DEBUG, ret)]
+#[instrument(level = Level::TRACE, ret)]
 pub fn log_path() -> PathBuf {
     logs_root()
         .mkdir_if_not_exists()

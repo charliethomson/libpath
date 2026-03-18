@@ -4,6 +4,8 @@ pub mod __reexports {
     pub use libbuildinfo;
 }
 
+pub use libbuildinfo::emit;
+
 use libbuildinfo::BuildInfo;
 
 static GLOBAL_PRODUCT_NAME: OnceLock<ProductName> = OnceLock::new();
